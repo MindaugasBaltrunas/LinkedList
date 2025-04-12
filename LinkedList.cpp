@@ -156,19 +156,35 @@ public:
 
 		Node* first = head;
 		Node* last = nullptr;
+
 		while (first && first->next != last) {
-			Node* sorted = first->next;
+			Node* sorted = nullptr;
+
 			for (Node* current = first; current->next != last; current = current->next) {
 				if (current->price > current->next->price) {
-					int temp = current->price;
+
+					string tempName = current->name;
+					int tempPrice = current->price;
+					int tempDate = current->date;
+
+					current->name = current->next->name;
 					current->price = current->next->price;
-					current->next->price = temp;
+					current->date = current->next->date;
+
+					current->next->name = tempName;
+					current->next->price = tempPrice;
+					current->next->date = tempDate;
+
 					sorted = current->next;
 				}
 			}
+
 			last = sorted;
+
+			if (!sorted) {
+				break;  
+			}
 		}
-		head = first;
 
 		cout << "Products sorted by price." << endl;
 	}
